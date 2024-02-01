@@ -2,9 +2,10 @@ export default (options) => {
     // default options
     const defaultOption = {
         container: options.element || document.getElementsByClassName('aplayer')[0],
-        mini: options.narrow || options.fixed || false,
+        mini: options.mini || options.fixed || false,
         fixed: false,
         autoplay: false,
+        cache: options.cache,
         mutex: true,
         lrcType: options.showlrc || options.lrc || 0,
         preload: 'metadata',
@@ -12,7 +13,7 @@ export default (options) => {
         loop: 'all',
         order: 'list',
         volume: 0.7,
-        listFolded: options.fixed,
+        listFolded: options.listFolded,
         listMaxHeight: options.listmaxheight || 250,
         audio: options.music || [],
         storageName: 'aplayer-setting',

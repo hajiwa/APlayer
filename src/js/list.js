@@ -7,8 +7,13 @@ class List {
         this.player = player;
         this.index = 0;
         this.audios = this.player.options.audio;
-        this.showing = true;
-        this.player.template.list.style.height = `${Math.min(this.player.template.list.scrollHeight, this.player.options.listMaxHeight)}px`;
+        this.showing = this.player.options.listFolded;
+        console.log('this.player.options.listFolded:', this.player.options.listFolded);
+        if (this.player.options.listFolded) {
+            this.player.template.list.style.height = `${Math.min(this.player.template.list.scrollHeight, this.player.options.listMaxHeight)}px`;
+        } else {
+            this.player.template.list.style.height = `0px`;
+        }
 
         this.bindEvents();
     }

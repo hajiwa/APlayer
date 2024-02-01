@@ -27,7 +27,7 @@ class APlayer {
         this.paused = true;
         this.playedPromise = Promise.resolve();
         this.mode = 'normal';
-
+        let index = options.index || 0;
         this.randomOrder = utils.randomOrder(this.options.audio.length);
 
         this.container.classList.add('aplayer');
@@ -89,13 +89,24 @@ class APlayer {
 
         this.initAudio();
         this.bindEvents();
+
+        // console.log("index:",index) cache  cache
+        // /* this.storage.data.cache */
+        // console.log(this.storage.data.index)
+        if (this.options.cache && (this.storage.data.index == 0 || this.storage.data.index)) {
+            // this.storage.data.currentTime
+            // this.storage.data
+
+            index = this.storage.data.index;
+        }
+        // console.log("index:",index,this.storage.data.index,this.storage.data.currentTime)
+
         if (this.options.order === 'random') {
             this.list.switch(this.randomOrder[0]);
         } else {
-            this.list.switch(0);
+            this.list.switch(index);
         }
 
-        // autoplay
         if (this.options.autoplay) {
             this.play();
         }
@@ -121,6 +132,7 @@ class APlayer {
             if (this.paused) {
                 this.setUIPlaying();
             }
+            this.storage.set('index', this.list.index);
         });
 
         this.on('pause', () => {
@@ -137,6 +149,7 @@ class APlayer {
                 if (this.template.ptime.innerHTML !== currentTime) {
                     this.template.ptime.innerHTML = currentTime;
                 }
+                this.storage.set('currentTime', this.audio.currentTime);
             }
         });
 
@@ -150,7 +163,11 @@ class APlayer {
 
         // Can seek now
         this.on('loadedmetadata', () => {
-            this.seek(0);
+            if (this.options.cache) {
+                this.seek(this.storage.data.currentTime);
+            } else {
+                this.seek(0);
+            }
             if (!this.paused) {
                 this.audio.play();
             }

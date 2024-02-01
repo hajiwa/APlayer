@@ -4,18 +4,15 @@ const GitRevisionPlugin = require('git-revision-webpack-plugin');
 const gitRevisionPlugin = new GitRevisionPlugin();
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: 'production',
-
     bail: true,
-
     devtool: 'source-map',
-
     entry: {
         APlayer: './src/js/index.js',
     },
-
     output: {
         path: path.resolve(__dirname, '..', 'dist'),
         filename: '[name].min.js',
@@ -25,12 +22,10 @@ module.exports = {
         umdNamedDefine: true,
         publicPath: '/',
     },
-
     resolve: {
         modules: ['node_modules'],
         extensions: ['.js', '.scss'],
     },
-
     module: {
         strictExportPresence: true,
         rules: [
@@ -50,7 +45,8 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    'style-loader',
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -63,6 +59,7 @@ module.exports = {
                             plugins: [autoprefixer, cssnano],
                         },
                     },
+
                     'sass-loader',
                 ],
             },
@@ -88,6 +85,9 @@ module.exports = {
         new webpack.DefinePlugin({
             APLAYER_VERSION: `"${require('../package.json').version}"`,
             GIT_HASH: JSON.stringify(gitRevisionPlugin.version()),
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].min.css',
         }),
     ],
 

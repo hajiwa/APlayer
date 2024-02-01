@@ -63,7 +63,7 @@
     <div class="aplayer-notice"></div>
     <div class="aplayer-miniswitcher"><button class="aplayer-icon">{{@ icons.right }}</button></div>
 </div>
-<ol class="aplayer-list{{ if options.listFolded }} aplayer-list-hide{{ /if }}">
+<ol class="aplayer-list">
     {{ include './list-item.art' getObject({
         theme: options.theme,
         audio: options.audio,
@@ -82,7 +82,7 @@
     <div class="aplayer-pic" style="{{ if cover  }}background-image: url(&quot;{{ cover }}&quot;);{{ /if }}background-color: {{ options.theme }};">
         <div class="aplayer-button aplayer-play">{{@ icons.play }}</div>
     </div>
-    <div class="aplayer-info" style="display: none;">
+    <div class="aplayer-info" >
         <div class="aplayer-music">
             <span class="aplayer-title">No audio</span>
             <span class="aplayer-author"></span>
